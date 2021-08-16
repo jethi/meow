@@ -35,7 +35,7 @@ meow -c title ./src/index.gmi
 meow --help
 ```
 
-## gemini Markup Cheatsheet
+## gemini Markdown Cheatsheet
 
 ### Headings:
 
