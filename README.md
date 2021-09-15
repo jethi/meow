@@ -1,8 +1,11 @@
 # meow
 
-meow is a CLI based markdown to html generator. But with a few quirks, the markdown sytanx it uses is based on gemini markdown with some extra featurs.
+meow is a CLI based markdown to html generator. But with a few quirks, the markdown sytanx it uses is based on gemini markdown with some extra features.
+
+Note: meow is developed on and for Linux.
 
 When using meow, it requires a template file which may be generated using:
+
 ```
 meow --generate
 ```
@@ -19,17 +22,15 @@ Note: Files must have '.gmi' extension.
 ```
 meow -o ./out/output-dir file.gmi
 ```
-* Filename is used in 'title' tag in HTML.
-Note: '-t' flag may be used to override this and title for each file is explicitly asked.
 
-* Also, if the case of title (based on filename) needs to be changed. '-c' flag followed by the case (title, upper or lower). may be used.
-Note: '-c' and '-t' flags are mutually exclusive.
+* By default filename is used in 'title' tag in HTML.
+* If the title needs to be changed. '-c' flag followed by the case 'title, upper, lower or custom' may be used.
 
 ```
 meow -c title ./src/index.gmi
 ```
 
-* You can also refer --help option for all the flags.
+* Refer --help option for all the flags.
 
 ```
 meow --help
@@ -96,10 +97,15 @@ I really needed this for my website.
 _
 ```
 
+### Footer
+
+Might be used for copyright text. meow ends parsing immediately after recieving footer or EOF
+
+```
+^ This is Footer Text
+```
+
 ## Note
 
 * This project was made to create my static website.
-* There is no support for reading STDIN when file is absent.
-* Extremely simple parsing is used, I promote editing 'helpers.go' file if you need any additional feature.
-* Unexpected errors might occur if a file already exists. So, I recommend deleting/moving any files you generated; before re-generating them in the same directory after editing.
-
+* Extremely simple parsing is used, I promote editing 'helpers.go' file if you need any additional features.

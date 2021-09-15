@@ -10,8 +10,9 @@ import (
 )
 
 type Content struct {
-	Title string
-	Data  string
+	Title  string
+	Data   string
+	Footer string
 }
 
 func set(saveb bool, savel bool) {
@@ -27,12 +28,16 @@ func set(saveb bool, savel bool) {
 
 func generateOutput() {
 	if !fileExists(filePath) {
-		os.Exit(0)
+		// Error message is printed in fileExists function itself.
+		// Useful when input is file.
+		os.Exit(1)
 	}
 	if !strings.HasSuffix(filePath, ".gmi") {
+		fmt.Println("No .gmi file found.")
 		return
 	}
-	var container Content
+	// Setting default string for footer.
+	container := Content{Footer: "Learn Humility and have Gratitude 🌱"}
 	var fileName string
 	fileName = strings.TrimSuffix(path.Base(filePath), ".gmi")
 	titleCase = strings.ToLower(titleCase)
@@ -52,9 +57,9 @@ func generateOutput() {
 	case "none":
 		container.Title = fileName
 	default:
-		fmt.Println("meow: please enter a valid case (title | lower | upper)")
+		fmt.Println("meow: please enter a valid case (title | lower | upper | custom | none)")
 		fmt.Println("Try 'meow --help' for more information.")
-		os.Exit(0)
+		return
 	}
 	container.Title = "\t<title>" + container.Title + "</title>\n"
 
@@ -100,6 +105,11 @@ func generateOutput() {
 		} else if strings.HasPrefix(j, "_") {
 			set(false, false)
 			output = output + "\t\t<hr/>\n"
+		} else if strings.HasPrefix(j, "^") {
+			// When footer is found line parsing is stopped
+			set(false, false)
+			container.Footer = strings.TrimSpace(j[1:])
+			break
 		} else if strings.HasPrefix(j, "# ") {
 			set(false, false)
 			output = output + "\t\t<h1>" + strings.TrimSpace(j[1:]) + "</h1>\n"
@@ -131,14 +141,13 @@ func generateOutput() {
 	set(false, false)
 	fileName = fileName + ".html"
 	container.Data = output
-	// TODO: Check hat happens if directory doesn't exist.
-	t, err := template.ParseFiles("html_template.tmpl")
+	t, err := template.ParseFiles(templatePath)
 	if err != nil {
 		fmt.Println("ERROR: no template file exists")
-		fmt.Println("Try 'meow --generate' to generate default template.")
+		fmt.Println("Try 'meow --generate' to generate default template or 'meow --help' for more information.")
 		os.Exit(1)
 	}
-	f, err := os.OpenFile(path.Join(path.Clean(outPath), fileName), os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(path.Join(path.Clean(outPath), fileName), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		fmt.Println("ERROR: failed to open file:", err)
 		os.Exit(1)

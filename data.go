@@ -1,10 +1,5 @@
 package main
 
-const noInput = `
-meow: Dear, you might be missing an argument or entered a wrong option.
-Try 'meow --help' for more information.
-`
-
 const help = `
 		meow - convert gemini markup to html
 
@@ -31,16 +26,17 @@ OPTIONS:
 		-o, --output
 			set output directory
 
-		-t, --title
-			asks user for title to use in HTML file
-			(default is filename without the extension)
+		-t, --template
+			specify the template file
 
-		-c, --setcase [title | upper | lower]
-			converts filename to specified case for title tag
-			(-t and -c are mutually exclusive)
+			Default: if '-t' is not used meow looks for 'html_template.tmpl' file in current directory
 
-KNOWN ISSUES:
-		* Unexpected behaviour when output file already exists.
+		-c, --setcase [title | upper | lower | custom | none]
+			Converts filename to specified case for title tag
+				'custom' option prompts user to enter title for each file
+
+			Default: if '-c' is not used, it defaults to 'none' which uses file name as title
+
 `
 
 const templateFile = `<!DOCTYPE html>
@@ -48,8 +44,8 @@ const templateFile = `<!DOCTYPE html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Gelasio&family=Roboto&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./style.css">
+	<link rel="shortcut icon" type="image/png" href="./assets/favicon.png"/>
 {{.Title}}
 </head>
 <body>
@@ -64,7 +60,7 @@ const templateFile = `<!DOCTYPE html>
 	</div>
 	<footer>
 		<p id="bottomtext">
-			Learn Humility and have Gratitude 🌱
+			{{.Footer}}
 		</p>
 	</footer>
 </body>
@@ -109,7 +105,7 @@ body {
 	display: inline-block;
 	position: relative;
 	cursor: pointer;
-	font-family: 'Gelasio', serif;
+	font-family: serif;
 	font-size: 1.25rem;
 	color: var(--all-text);
 	background-color: var(--button-bg);
@@ -117,12 +113,12 @@ body {
 
 h1, h2, h3 {
 	margin: 0;
-	font-family: 'Gelasio', serif;
+	font-family: serif;
 }
 
 p, ul, a {
 	margin: 0;
-	font-family: 'Roboto', sans-serif;
+	font-family: sans-serif;
 }
 
 a {
@@ -147,14 +143,15 @@ a:hover {
 blockquote {
 	padding: 5px 10px;
 	margin: 0px 30px;
-	font-family: 'Fira Code', monospace;
+	font-family: monospace;
 	border: dashed 1px var(--border-col);
 	background-color: var(--block-pre-bg);
 }
+
 pre {
 	padding: 5px 10px;
 	margin: 0px;
-	font-family: 'Fira Code', monospace;
+	font-family: monospace;
 	background-color: var(--block-pre-bg);
 	border: solid 0.5px;
 	overflow-x: scroll;
