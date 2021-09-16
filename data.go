@@ -5,8 +5,9 @@ const help = `
 
 USAGE:
 		meow FILE/DIRECTORY
-		meow [-o OUTPUT_DIR] [-t] FILE/DIRECTORY
-		meow [-o OUTPUT_DIR] [-c title | lower | upper] FILE/DIRECTORY
+		meow [-o OUTPUT_DIR] [-t TEMPLATE_FILE_PATH] FILE/DIRECTORY
+		meow [-o OUTPUT_DIR] [-c title | lower | upper | custom] FILE/DIRECTORY
+		meow [-o OUTPUT_DIR] [-t TEMPLATE_FILE_PATH] [-c title | lower | upper | custom] FILE/DIRECTORY
 
 NOTE:
 		meow needs a template and optionally css to work
@@ -30,6 +31,8 @@ OPTIONS:
 			specify the template file
 
 			Default: if '-t' is not used meow looks for 'html_template.tmpl' file in current directory
+
+			Note: User is trusted to provide a valid template file.
 
 		-c, --setcase [title | upper | lower | custom | none]
 			Converts filename to specified case for title tag

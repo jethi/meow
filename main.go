@@ -16,11 +16,12 @@ var (
 
 	filePath    string
 	outPath     string
-	titleCase   string
 	customTitle string
 )
 
+// Defaults
 var templatePath = "html_template.tmpl"
+var titleCase = "none"
 
 const noInput = `
 meow: You might be missing an argument or entered a wrong option.
@@ -85,7 +86,6 @@ func parseArgs(x uint) {
 		parseArgs(x + 2)
 
 	default:
-		titleCase = "none"
 		filePath = os.Args[x]
 	}
 }
@@ -98,7 +98,6 @@ func main() {
 
 	// passing 1st argument to parseArgs to check
 	parseArgs(1)
-
 	f, err := os.Stat(filePath)
 	if os.IsNotExist(err) {
 		fmt.Println("ERROR: input file/directory doesn't exist")

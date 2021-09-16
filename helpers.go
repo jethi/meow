@@ -141,12 +141,13 @@ func generateOutput() {
 	set(false, false)
 	fileName = fileName + ".html"
 	container.Data = output
-	t, err := template.ParseFiles(templatePath)
+	t, err := template.ParseFiles(path.Clean(templatePath))
 	if err != nil {
 		fmt.Println("ERROR: no template file exists")
 		fmt.Println("Try 'meow --generate' to generate default template or 'meow --help' for more information.")
 		os.Exit(1)
 	}
+	// Writing output to file.
 	f, err := os.OpenFile(path.Join(path.Clean(outPath), fileName), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		fmt.Println("ERROR: failed to open file:", err)
