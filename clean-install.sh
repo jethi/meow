@@ -1,4 +1,5 @@
 #!/bin/sh
 
-rm -f ~/go/bin/meow
+rm -f $GOPATH/bin/meow
 go install .
+echo "Successfully installed meow"

@@ -2,7 +2,27 @@
 
 meow is a CLI based markdown to html generator. But with a few quirks, the markdown sytanx it uses is based on gemini markdown with some extra features.
 
+## Getting Started
+
 Note: meow is developed on and for Linux.
+
+### Requirments
+
+* Go (golang)
+* GOPATH setup must be done
+* GOPATH/bin in PATH variable
+
+### Compile + Install
+
+Execute clean-install.sh
+
+```
+./clean-install.sh
+```
+
+Enjoy!!
+
+## Usage
 
 When using meow, it requires a template file which may be generated using:
 
@@ -10,7 +30,7 @@ When using meow, it requires a template file which may be generated using:
 meow --generate
 ```
 
-Edit the template file to generate perfect html pages according to you liking.
+Edit the template file to generate perfect html pages according to your liking.
 
 ## Features
 
